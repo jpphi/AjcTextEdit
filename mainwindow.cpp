@@ -19,9 +19,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     // Création d'un Menu
 
-    // Réccupération du pointeur sur TabWidgget
-    tabwidget= ui->tabWidget;
-    //plaintextedit= ui->plainTextEdit;
+    newFile();
 
     connect(ui->actionOuvrir, SIGNAL(triggered(bool)), this, SLOT(openFile()));
     connect(ui->actionSauvegarde, SIGNAL(triggered(bool)), this, SLOT(saveFile()));
@@ -91,7 +89,7 @@ void MainWindow::saveFile()
     qDebug()<<"Sauvegarde: " << tabwidget->currentIndex();
     //qDebug()<< tabwidget->layout()->count();
 
-    plaintextedit= ui->plainTextEdit;
+    //plaintextedit= ui->plainTextEdit;
 
     qDebug() << plaintextedit->toPlainText();
 
@@ -102,7 +100,15 @@ void MainWindow::saveFile()
 void MainWindow::ContentChanged()
 {
     QString titre= tabwidget->tabText(tabwidget->currentIndex());
-    qDebug() << "textChanged " <<  titre;
+
+    //qDebug()<< "Changement de contenuee du fichier : " + titre;
+
+    if(titre[0]!= "*" )
+    {
+        tabwidget->setTabText(tabwidget->currentIndex(), "*"+titre);
+
+    }
+
 }
 
 void MainWindow::newFile()
@@ -110,9 +116,20 @@ void MainWindow::newFile()
     //qDebug() << "Signal Nouveau";
 
     plaintextedit= new QPlainTextEdit();
+
+    connect(plaintextedit, SIGNAL(textChanged()), this, SLOT(ContentChanged( )));
+
+    if(tabwidget== nullptr)
+    {
+
+        tabwidget= ui->tabWidget;
+        tabwidget->removeTab(0); /// Permet de supprimer la tab pprovenant de l'ui
+        //qDebug()<<"ICI..." << tabwidget->currentIndex();
+    }
+
+
     tabwidget->addTab(plaintextedit,"Nouveau");
 
     tabwidget->setMovable(true);
     tabwidget->setTabsClosable(true);
-
 }

@@ -27,8 +27,8 @@ private slots:
 
 private:
     Ui::MainWindow *ui;
-    QTabWidget *tabwidget;
-    QPlainTextEdit *plaintextedit;
+    QTabWidget *tabwidget= nullptr;
+    QPlainTextEdit *plaintextedit= nullptr;
 
 };
 #endif // MAINWINDOW_H
