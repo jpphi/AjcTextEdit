@@ -6,16 +6,16 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>296</width>
-    <height>308</height>
+    <width>488</width>
+    <height>554</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Editeur texte made in JP</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <layout class="QGridLayout" name="gridLayout">
-    <item row="0" column="0">
+   <layout class="QVBoxLayout" name="verticalLayout_2">
+    <item>
      <widget class="QTabWidget" name="tabWidget">
       <property name="currentIndex">
        <number>0</number>
@@ -24,12 +24,19 @@
        <attribute name="title">
         <string>Nouveau</string>
        </attribute>
-       <layout class="QGridLayout" name="gridLayout_2">
-        <item row="0" column="0">
+       <layout class="QVBoxLayout" name="verticalLayout">
+        <item>
          <widget class="QPlainTextEdit" name="plainTextEdit"/>
         </item>
        </layout>
       </widget>
+     </widget>
+    </item>
+    <item>
+     <widget class="QLabel" name="label">
+      <property name="text">
+       <string>Ligne Colonne</string>
+      </property>
      </widget>
     </item>
    </layout>
@@ -39,7 +46,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>296</width>
+     <width>488</width>
      <height>23</height>
     </rect>
    </property>

@@ -29,6 +29,8 @@ private:
     Ui::MainWindow *ui;
     QTabWidget *tabwidget= nullptr;
     QPlainTextEdit *plaintextedit= nullptr;
+    QString lc;
+    //QString repcourrant;
 
 };
 #endif // MAINWINDOW_H

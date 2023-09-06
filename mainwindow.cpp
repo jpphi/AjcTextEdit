@@ -17,7 +17,7 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
 
-    // Création d'un Menu
+    lc=  ui->label->text();
 
     newFile();
 
@@ -56,6 +56,8 @@ void MainWindow::openFile()
         }
         else
         {
+            //repcourrant= descinfo.filePath();
+
 
             // Lecture du fichier
             QTextStream in(&desc);
@@ -66,7 +68,10 @@ void MainWindow::openFile()
             plaintextedit->setPlainText(texte);
 
             // Création de l'onglet contenant le container texte
-            tabwidget->addTab(plaintextedit,descinfo.fileName());
+            tabwidget->setCurrentIndex(tabwidget->addTab(plaintextedit,descinfo.fileName()));
+
+            tabwidget->setTabToolTip(tabwidget->currentIndex(), descinfo.absoluteFilePath());
+
 
             tabwidget->setMovable(true);
             tabwidget->setTabsClosable(true);
@@ -75,6 +80,9 @@ void MainWindow::openFile()
 
         }
     }
+
+
+    //qDebug() << repcourrant << " " + QCoreApplication::applicationDirPath();
 
 }
 
@@ -86,12 +94,17 @@ void MainWindow::closeFile(int indexfenetre)
 
 void MainWindow::saveFile()
 {
-    qDebug()<<"Sauvegarde: " << tabwidget->currentIndex();
-    //qDebug()<< tabwidget->layout()->count();
+    // Suppression de '*' si elle existe
+    QString titre= tabwidget->tabText(tabwidget->currentIndex());
+    if(titre[0]== "*" )
+    {
+        tabwidget->setTabText(tabwidget->currentIndex(), titre.remove(0,1));
+    }
 
-    //plaintextedit= ui->plainTextEdit;
 
-    qDebug() << plaintextedit->toPlainText();
+    qDebug()<<"Sauvegarde: " << tabwidget->tabToolTip(tabwidget->currentIndex());
+
+    //qDebug() << plaintextedit->toPlainText();
 
 
     //QFileDialog::getSaveFileName(this)
@@ -106,7 +119,6 @@ void MainWindow::ContentChanged()
     if(titre[0]!= "*" )
     {
         tabwidget->setTabText(tabwidget->currentIndex(), "*"+titre);
-
     }
 
 }
@@ -114,22 +126,25 @@ void MainWindow::ContentChanged()
 void MainWindow::newFile()
 {
     //qDebug() << "Signal Nouveau";
+    //repcourrant= QCoreApplication::applicationFilePath();
+
+    //qDebug() << repcourrant << " " + QCoreApplication::applicationDirPath();
 
     plaintextedit= new QPlainTextEdit();
 
-    connect(plaintextedit, SIGNAL(textChanged()), this, SLOT(ContentChanged( )));
-
     if(tabwidget== nullptr)
     {
-
         tabwidget= ui->tabWidget;
-        tabwidget->removeTab(0); /// Permet de supprimer la tab pprovenant de l'ui
+        tabwidget->removeTab(0); /// Permet de supprimer la tab provenant de l'ui
         //qDebug()<<"ICI..." << tabwidget->currentIndex();
     }
 
+    tabwidget->setCurrentIndex(tabwidget->addTab(plaintextedit,"Nouveau"));
 
-    tabwidget->addTab(plaintextedit,"Nouveau");
+    tabwidget->setTabToolTip(tabwidget->currentIndex(),QCoreApplication::applicationFilePath()+"/Nouveau");
 
     tabwidget->setMovable(true);
     tabwidget->setTabsClosable(true);
+
+    connect(plaintextedit, SIGNAL(textChanged()), this, SLOT(ContentChanged( )));
 }
