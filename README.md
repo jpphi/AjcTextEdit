@@ -20,3 +20,7 @@ Affichage de la ligne et de la colonne du curseur
 Recherche d’un texte dans un fichier ouvert  
 Remplacement d’un texte dans un fichier  
 Mémorisation des derniers fichiers ouverts  
+  
+## Ressources  
+Excellent tuto QT en français: https://www.youtube.com/playlist?list=PL8ThI0DA8FbUBpEihprYsoQJSbcLm40nZ  
+

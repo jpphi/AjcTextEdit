@@ -3,6 +3,7 @@
 #include <QFileDialog>
 #include <QTextStream>
 #include <QFile>
+#include <QFileInfo>
 #include <QMessageBox>
 
 //#include<QTableWidget>
@@ -18,18 +19,14 @@ MainWindow::MainWindow(QWidget *parent)
 
     // Création d'un Menu
 
-    // Réccupération du pointeur sur TabWiidgget
+    // Réccupération du pointeur sur TabWidgget
     tabwidget= ui->tabWidget;
-
-    //tabwidget->addTab(new QWidget, "tab0");
-    //tabwidget->setMovable(true);
-    //tabwidget->setTabsClosable(true);
+    //plaintextedit= ui->plainTextEdit;
 
     connect(ui->actionOuvrir, SIGNAL(triggered(bool)), this, SLOT(openFile()));
     connect(ui->actionSauvegarde, SIGNAL(triggered(bool)), this, SLOT(saveFile()));
+    connect(ui->actionNouveau, SIGNAL(triggered(bool)), this, SLOT(newFile()));
     connect(tabwidget, SIGNAL(tabCloseRequested(int)), this, SLOT(closeFile(int )));
-
-    //connect(tabwidget, SIGNAL(tabCloseRequested(int)), this, SLOT(closeFile(int )));
 }
 
 MainWindow::~MainWindow()
@@ -53,6 +50,7 @@ void MainWindow::openFile()
     if( !fichier.isNull() )
     {
         QFile desc(fichier);
+        QFileInfo descinfo(fichier);
 
         if(!desc.open(QIODevice::ReadOnly | QIODevice::Text))
         {
@@ -70,13 +68,14 @@ void MainWindow::openFile()
             plaintextedit->setPlainText(texte);
 
             // Création de l'onglet contenant le container texte
-            tabwidget->addTab(plaintextedit, fichier);
+            tabwidget->addTab(plaintextedit,descinfo.fileName());
 
             tabwidget->setMovable(true);
             tabwidget->setTabsClosable(true);
-        }
 
-        //plaintextedit->
+            connect(plaintextedit, SIGNAL(textChanged()), this, SLOT(ContentChanged( )));
+
+        }
     }
 
 }
@@ -90,6 +89,7 @@ void MainWindow::closeFile(int indexfenetre)
 void MainWindow::saveFile()
 {
     qDebug()<<"Sauvegarde: " << tabwidget->currentIndex();
+    //qDebug()<< tabwidget->layout()->count();
 
     plaintextedit= ui->plainTextEdit;
 
@@ -99,9 +99,20 @@ void MainWindow::saveFile()
     //QFileDialog::getSaveFileName(this)
 }
 
-void MainWindow::textChanged()
+void MainWindow::ContentChanged()
 {
     QString titre= tabwidget->tabText(tabwidget->currentIndex());
     qDebug() << "textChanged " <<  titre;
 }
 
+void MainWindow::newFile()
+{
+    //qDebug() << "Signal Nouveau";
+
+    plaintextedit= new QPlainTextEdit();
+    tabwidget->addTab(plaintextedit,"Nouveau");
+
+    tabwidget->setMovable(true);
+    tabwidget->setTabsClosable(true);
+
+}

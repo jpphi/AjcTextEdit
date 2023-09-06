@@ -22,7 +22,8 @@ private slots:
     void openFile();
     void closeFile(int);
     void saveFile(void);
-    void textChanged(void);
+    void ContentChanged(void);
+    void newFile(void);
 
 private:
     Ui::MainWindow *ui;
