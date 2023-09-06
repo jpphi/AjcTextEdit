@@ -5,6 +5,7 @@
 #include <QFile>
 #include <QFileInfo>
 #include <QMessageBox>
+#include <QList>
 
 //#include<QTableWidget>
 
@@ -18,6 +19,8 @@ MainWindow::MainWindow(QWidget *parent)
     ui->setupUi(this);
 
     lc=  ui->label->text();
+
+
 
     newFile();
 
@@ -65,7 +68,12 @@ void MainWindow::openFile()
 
             // Création du conteneur
             plaintextedit= new QPlainTextEdit();
+            plaintextedit->setObjectName("Edit");
+
             plaintextedit->setPlainText(texte);
+
+            //calque->addWidget(plaintextedit);
+
 
             // Création de l'onglet contenant le container texte
             tabwidget->setCurrentIndex(tabwidget->addTab(plaintextedit,descinfo.fileName()));
@@ -104,6 +112,8 @@ void MainWindow::saveFile()
 
     qDebug()<<"Sauvegarde: " << tabwidget->tabToolTip(tabwidget->currentIndex());
 
+    qDebug()<<texteAssocieTab();
+
     //qDebug() << plaintextedit->toPlainText();
 
 
@@ -130,21 +140,52 @@ void MainWindow::newFile()
 
     //qDebug() << repcourrant << " " + QCoreApplication::applicationDirPath();
 
+
     plaintextedit= new QPlainTextEdit();
+    plaintextedit->setObjectName("Edit");
 
     if(tabwidget== nullptr)
     {
         tabwidget= ui->tabWidget;
         tabwidget->removeTab(0); /// Permet de supprimer la tab provenant de l'ui
         //qDebug()<<"ICI..." << tabwidget->currentIndex();
+        //calque= new QVBoxLayout(tabwidget);
+
     }
 
     tabwidget->setCurrentIndex(tabwidget->addTab(plaintextedit,"Nouveau"));
+    //plaintextedit->setParent(tabwidget);
 
-    tabwidget->setTabToolTip(tabwidget->currentIndex(),QCoreApplication::applicationFilePath()+"/Nouveau");
+    tabwidget->setTabToolTip(tabwidget->currentIndex(),"");
 
     tabwidget->setMovable(true);
     tabwidget->setTabsClosable(true);
 
+    //calque->addWidget(plaintextedit);
+    //calque->show();
+
     connect(plaintextedit, SIGNAL(textChanged()), this, SLOT(ContentChanged( )));
 }
+
+QString MainWindow::texteAssocieTab()
+{
+    QList<QPlainTextEdit *>liste= tabwidget->findChildren<QPlainTextEdit *>("Edit");
+    //QList<QPlainTextEdit *>liste= tabwidget->parent() <QPlainTextEdit *>();
+    //int el = tabwidget->indexOf((QWidget *)tabwidget->findChild);
+    QString ret("ttoto");
+
+    //for(QPlainTextEdit *el : liste)
+    for(int i= 0; i< liste.count(); i++)
+    {
+        //qDebug()<< tabwidget->indexOf(el->parentWidget());
+        qDebug()<< tabwidget->indexOf(liste[i]->parentWidget());
+        //qDebug()<< liste[i]->parentWidget()->;
+        //qDebug()<< tabwidget->indexOf(liste[i]->parent());
+        //qDebug()<< el;
+    }
+
+    return ret;
+
+}
+
+

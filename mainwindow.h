@@ -4,6 +4,8 @@
 #include <QMainWindow>
 #include<QTabWidget>
 #include<QPlainTextEdit>
+#include <QVBoxLayout>
+
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
@@ -24,12 +26,14 @@ private slots:
     void saveFile(void);
     void ContentChanged(void);
     void newFile(void);
+    QString texteAssocieTab();
 
 private:
     Ui::MainWindow *ui;
     QTabWidget *tabwidget= nullptr;
     QPlainTextEdit *plaintextedit= nullptr;
     QString lc;
+    //QVBoxLayout *calque;
     //QString repcourrant;
 
 };
