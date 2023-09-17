@@ -23,4 +23,14 @@ Mémorisation des derniers fichiers ouverts
   
 ## Ressources  
 Excellent tuto QT en français: https://www.youtube.com/playlist?list=PL8ThI0DA8FbUBpEihprYsoQJSbcLm40nZ  
+  
+## Bug  
+A l'exécution on a les avertissements suivants:  
+QSocketNotifier: Can only be used with threads started with QThread  
+qt.qpa.wayland: Wayland does not support QWindow::requestActivate()  
+  
+La recherche un parent de QPlainTextEdit échou et renvoie -1:  
+qDebug()<< "tabwidget->indexOf(lqpte[i]->parentWidget()): " << tabwidget->indexOf(lqpte[i]->parentWidget());  
+  
+**La sauvegarde peut fonctionner** à condition de **déplacer l'onglet** à sauvegarder en **dernière position**.  
 

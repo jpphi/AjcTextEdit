@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>488</width>
+    <width>528</width>
     <height>554</height>
    </rect>
   </property>
@@ -24,7 +24,11 @@
        <attribute name="title">
         <string>Nouveau</string>
        </attribute>
-       <layout class="QVBoxLayout" name="verticalLayout"/>
+       <layout class="QVBoxLayout" name="verticalLayout">
+        <item>
+         <widget class="QPlainTextEdit" name="plainTextEdit"/>
+        </item>
+       </layout>
       </widget>
      </widget>
     </item>
@@ -42,7 +46,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>488</width>
+     <width>528</width>
      <height>23</height>
     </rect>
    </property>
