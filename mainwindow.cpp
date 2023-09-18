@@ -28,32 +28,14 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->actionSauvegarde, SIGNAL(triggered(bool)), this, SLOT(saveFile()));
     connect(ui->actionNouveau, SIGNAL(triggered(bool)), this, SLOT(newFile()));
     connect(tabwidget, SIGNAL(tabCloseRequested(int)), this, SLOT(closeFile(int )));
+
+    //qDebug() << "Retour MainWindows";
 }
 
 MainWindow::~MainWindow()
 {
     delete ui;
 }
-
-void MainWindow::ajoutFich(int n, QString nf, QString cont)
-{
-    Onglet o;
-
-    o.num= n;
-    o.nfich= nf;
-    o.content= cont;
-    lstonglet->append(o);
-    qDebug() << "Onglet" << o.num << o.nfich << o.content;
-}
-
-/*
-void MainWindow::createTab(QString f)
-{
-    tabwidget->addTab(new QWidget, f);
-    tabwidget->setMovable(true);
-    tabwidget->setTabsClosable(true);
-}
-*/
 
 void MainWindow::newFile()
 {
@@ -174,88 +156,27 @@ void MainWindow::saveFile()
         tabwidget->setTabText(tabwidget->currentIndex(), titre.remove(0,1));
     }
 
-
-    //qDebug()<<"Sauvegarde: " << tabwidget->tabToolTip(tabwidget->currentIndex());
-
-    //qDebug()<<texteAssocieTab();
-
-    ////////////////////// TTEST
-
-
-
-    //QList<QPlainTextEdit *> lqpte= tabwidget->findChildren<QPlainTextEdit *>("Edition"); // "Edition"
-    int ind= tabwidget->currentIndex();
-    //tabwidget->setCurrentIndex(tabwidget->count());
     QList<QPlainTextEdit *> lqpte= tabwidget->findChildren<QPlainTextEdit *>("Edition"); // "Edition"
-    //tabwidget->setCurrentIndex(ind);
 
-    qDebug() << "ind " << ind;
-    //auto cw= tabwidget->currentWidget()->toolTip();
-
-    //tabwidget->setCurrentIndex(ind);
-
-    //qDebug() << "courant widget : " << ind;
-
-    //qDebug() << "test: " <<lqpte[ind]->toPlainText();//tabwidget->indexOf(el->parentWidget());
-
-    qDebug() << "Dans le for ";
-    for(int i= 0; i < lqpte.count(); i++)
-    {
-
-        //QPlainTextEdit *el= lqpte[i];
-        //qDebug()<< "test4" << tabwidget->indexOf((QTabWidget *)lqpte[i]->parent());//tabwidget->indexOf(el->parentWidget()); // (QTabWidget *)
-        //qDebug()<< ((QTabWidget *)el->parentWidget())->currentIndex();//tabwidget->indexOf(el->parentWidget());
-        //qDebug()<< tabwidget->isAncestorOf(el); // true
-        //qDebug() << (el->parentWidget())->isWidgetType();
-        //qDebug() << (el->parentWidget())->inherits("QTabWidget");
-        //qDebug() << "Titre doc :" << el->documentTitle();
-
-        qDebug()<< "tabwidget->indexOf(lqpte[i]->parentWidget()): " << tabwidget->indexOf(lqpte[i]->parentWidget());//tabwidget->indexOf(el->parentWidget()); // (QTabWidget *)
-        qDebug()<<"tooltip : " << tabwidget->tabToolTip(i) << " de l  indice i= "<< i;
-
-        qDebug() << "lqpte[i]->toPlainText() : " << lqpte[i]->toPlainText();
-        qDebug() << "tabwidget->currentIndex(): " << tabwidget->currentIndex();
-        qDebug() << "lqpte[tabwidget->currentIndex()]->toPlainText(): " <<lqpte[tabwidget->currentIndex()]->toPlainText();//tabwidget->indexOf(el->parentWidget());
-        qDebug()<< "tabwidget->indexOf((QTabWidget *)lqpte[i]->parent()) :" << tabwidget->indexOf((QTabWidget *)lqpte[i]->parent());//tabwidget->indexOf(el->parentWidget());
-        qDebug()<< "lqpte[tabwidget->currentIndex()]->toPlainText() :" << lqpte[tabwidget->currentIndex()]->toPlainText();//tabwidget->indexOf(el->parentWidget());
-        //qDebug()<< "lqpte[1]->toPlainText() :" << lqpte[1]->toPlainText();//tabwidget->indexOf(el->parentWidget());
-        qDebug() <<"---------------------------------";
-
-
-        /*
-        if( el->parentWidget()->inherits("QTabWidget") )
-        {
-            //qDebug() << "ICI" << tabwidget->indexOf(el->parentWidget());
-            QTabWidget *qtw= (QTabWidget *)el->parentWidget();
-            qDebug() << "ICI" << qtw->indexOf(el->parentWidget());
-            qDebug() << "ICI" << qtw->indexOf(el->parentWidget());
-        }
-        */
-
-        //qDebug() <<
-        //qDebug() << tabwidget->currentIndex();
-
-    }
-
-    //QList<QTabWidget *> tab= tabwidget;
 
     // BUG POUR EVITER LE PROBLEME DE DISFONCTIONNEMENT D INDEXOF.
     QString contenu= lqpte[tabwidget->count()-1]->toPlainText();
 
     qDebug()<<"tooltip : " << tabwidget->tabToolTip(tabwidget->currentIndex());
 
-    qDebug() << "Hors du for: tabw : " <<  tabwidget->currentIndex();
-    qDebug() << "Hors du for: lpqt[tabw...] : " <<  lqpte[tabwidget->currentIndex()]->toPlainText();
-    qDebug() << "Hors du for: lpqt[tabw...] : " <<  contenu;
+    //qDebug() << "Hors du for: tabw : " <<  tabwidget->currentIndex();
+    //qDebug() << "Hors du for: lpqt[tabw...] : " <<  lqpte[tabwidget->currentIndex()]->toPlainText();
+    //qDebug() << "Hors du for: lpqt[tabw...] : " <<  contenu;
 
 
+    // Sauvegarde
     QString fichier= QFileDialog::getSaveFileName(this, tr("Sauvegarde du fichier"), tabwidget->tabToolTip(tabwidget->currentIndex()),
                                     tr( "All files (*.*) ;; Source C/C++ (*.c *.h *.cpp *.hpp);; PNG files (*.png)"));
 
     QFile desc(fichier);
-    QFileInfo descinfo(fichier);
+    //QFileInfo descinfo(fichier);
 
-    qDebug()<< descinfo.absoluteFilePath();
+    //qDebug()<< descinfo.absoluteFilePath();
 
     if(!desc.open(QIODevice::WriteOnly | QIODevice::Text))
     {
@@ -263,10 +184,6 @@ void MainWindow::saveFile()
     }
     else
     {
-
-        //repcourrant= descinfo.filePath();
-
-
         // Lecture du fichier
         QTextStream out(&desc);
 
@@ -276,8 +193,6 @@ void MainWindow::saveFile()
 
     }
 }
-
-
 
 void MainWindow::ContentChanged()
 {
@@ -290,11 +205,29 @@ void MainWindow::ContentChanged()
         tabwidget->setTabText(tabwidget->currentIndex(), "*"+titre);
     }
 
-    QPlainTextEdit qp;
 
-    ///////////////////////////// FAIRE FONCTION RAFFRAICHIR ------- Comment acceder au texte ???
-    // rafraichir(tabwidget->currentIndex(),
 
+    /* A IMPLEMENTER DANS EVENNEMENT MOVEEVENT ????
+    // BUG POUR EVITER LE PROBLEME DE DISFONCTIONNEMENT D INDEXOF.
+    QList<QPlainTextEdit *> lqpte= tabwidget->findChildren<QPlainTextEdit *>("Edition"); // "Edition"
+    QPoint qpt= lqpte[tabwidget->count()-1]->pos();
+
+    lc= "Position : " + QString::number(qpt.x());
+
+    ui->label->setText(lc);
+    */
+}
+
+
+void MainWindow::ajoutFich(int n, QString nf, QString cont)
+{
+    Onglet o;
+
+    o.num= n;
+    o.nfich= nf;
+    o.content= cont;
+    lstonglet->append(o);
+    qDebug() << "Onglet" << o.num << o.nfich << o.content;
 }
 
 
@@ -391,4 +324,14 @@ void MainWindow::saveFile()
     //QFileDialog::getSaveFileName(this)
 }
 
+*/
+
+
+/*
+void MainWindow::createTab(QString f)
+{
+    tabwidget->addTab(new QWidget, f);
+    tabwidget->setMovable(true);
+    tabwidget->setTabsClosable(true);
+}
 */

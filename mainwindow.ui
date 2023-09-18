@@ -58,7 +58,6 @@
     <addaction name="actionOuvrir"/>
     <addaction name="actionSauvegarde"/>
     <addaction name="separator"/>
-    <addaction name="actionQuitter_2"/>
    </widget>
    <widget class="QMenu" name="menuEdit">
     <property name="title">
